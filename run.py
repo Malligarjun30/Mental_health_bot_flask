@@ -4,8 +4,8 @@ from ChatbotWebsite import create_app
 app = create_app()
 
 # Run the app
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -30,4 +30,4 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

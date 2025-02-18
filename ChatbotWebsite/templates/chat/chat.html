@@ -140,6 +140,45 @@
             {%endfor%}
           </ul>
         </div>
+        <div class="btn-group dropup">
+          <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Patient History 🗒️
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <input type="file" id="patient-history-upload" accept="application/pdf" class="dropdown-item">
+            </li>
+            <li>
+              <button class="dropdown-item" onclick="uploadPatientHistory()">Upload PDF</button>
+            </li>
+          </ul>
+        </div>
+        
+        <script>
+        function uploadPatientHistory() {
+            let fileInput = document.getElementById("patient-history-upload");
+            if (fileInput.files.length === 0) {
+                alert("Please select a PDF file.");
+                return;
+            }
+        
+            let formData = new FormData();
+            formData.append("pdf", fileInput.files[0]);
+        
+            fetch("/upload_patient_history", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+        </script>
+        
       </div>
       <form id="message-form" class="chat-inputarea" image_file={{ current_user.profile_image if current_user.is_authenticated else "default.jpg" }}>
         <input

@@ -3,16 +3,41 @@ import random
 import numpy as np
 import nltk
 import pickle
+import os
 from autocorrect import Speller
 from nltk.stem import WordNetLemmatizer
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 from keras.models import load_model
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
+import pdfplumber
+folder_path=r"D:\project_2025\keerthi\Python-Mental-Health-Chatbot\patient_history"
+context = ""
+for filename in os.listdir(folder_path):
+    if filename.endswith(".pdf"):
+        # Open the PDF file
+        with pdfplumber.open(folder_path+"\\"+filename) as pdf:
+            for page in pdf.pages:
+                context += page.extract_text() + "\n"
+
+template ="""
+You are a helpful AI assistant that answers only mental health questions.
+If the question is not related to meantal health, politely refuse to answer.
+Here is the conversation history: {context}
+Question: {question}
+Answer:
+"""
+
+
+
+model = OllamaLLM(model="qwen:0.5b")
+prompt = ChatPromptTemplate.from_template(template)
+chain = prompt | model
 
 nltk.download("punkt")
 nltk.download("wordnet")
-
 # Lemmatizer
 lemmatizer = WordNetLemmatizer()
 
@@ -132,6 +157,10 @@ def predict_class(message, ERROR_THRESHOLD=0.25):
     return return_list
 
 
+
+
+
+
 # get response, return response
 def get_response(message, id="000"):
     spell = Speller()  # autocorrect
@@ -159,5 +188,6 @@ def get_response(message, id="000"):
                     return str(response)
             results.pop(0)
     else:  # if no results
-        response = "I apologize if my response wasn't what you were looking for. As an AI language model, my knowledge and understanding are limited by the data that I was trained on. If you need more detailed or specific information, I suggest consulting with a human expert or conducting further research online. Please let me know if you have any other questions or if there's anything else I can help you with."
+        #response = "I apologize if my response wasn't what you were looking for. As an AI language model, my knowledge and understanding are limited by the data that I was trained on. If you need more detailed or specific information, I suggest consulting with a human expert or conducting further research online. Please let me know if you have any other questions or if there's anything else I can help you with."
+        response=chain.invoke({"context": context, "question": corrected_message})    
     return str(response)

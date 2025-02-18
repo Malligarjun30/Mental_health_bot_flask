@@ -88,3 +88,49 @@ def mindfulness():
     title = request.form["title"]
     description, file_name = get_description(title)
     return jsonify({"description": description, "file_name": file_name})
+
+
+import os
+import datetime
+from flask import current_app
+
+UPLOAD_FOLDER = "patient_history/"
+
+
+ALLOWED_EXTENSIONS = {"pdf"}
+
+def process_pdf(filepath):
+    print("success")
+    return 1
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@chatbot.route("/upload_patient_history", methods=["POST"])
+def upload_patient_history():
+    if "pdf" not in request.files:
+        return jsonify({"message": "No file part"}), 400
+    
+    file = request.files["pdf"]
+    
+    if file.filename == "":
+        return jsonify({"message": "No selected file"}), 400
+
+    if file and allowed_file(file.filename):
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"patient_history_{timestamp}.pdf"
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+
+        file.save(filepath)
+        print("done")
+
+        # Simulate processing
+        success = process_pdf(filepath)
+
+        if success==1:
+            return jsonify({"message": "history uploaded and processed successfully!"})
+        else:
+            #os.remove(filepath)
+            return jsonify({"message": "Processing failed. Please reupload the readable pdf."}), 400
+
+    return jsonify({"message": "Invalid file format"}), 400
