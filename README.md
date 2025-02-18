@@ -10,7 +10,7 @@ AIM: This is built to educate users with the correct knowledge of mental health 
 
 - Frontend: Python
 - Backend: Python
-- Database: MySQL
+- Database:SQLite
 
 ## Installation
 
