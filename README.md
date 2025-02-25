@@ -14,7 +14,7 @@ git clone
 ```
 Note: Configure your application in the `config.py` and database and make sure the database and URI are set up correctly
 ```
-pip install -r requirements.txt
+pip install -r requirements1.txt
 ```
 
 ```
