@@ -7,6 +7,11 @@
 - Database: SQLite
 - Model: Ollama(qwen 0.5b)#you can change as per your gpu
 
+##before run
+- chaange the path in chatbotwebsite -> config.py
+- chaange the path in chatbotwebsite -> Chatbot -> chatbot.py
+- to update model. chaange the path in chatbotwebsite -> Chatbot -> chatbot.py line 35 currently using qwen 0.5b
+
 ## Installation
 
 ```
