@@ -7,7 +7,33 @@
 - Database: SQLite
 - Model: Ollama(qwen 0.5b)#you can change as per your gpu
 
-##before run
+## Step 1: Download and Install Ollama
+
+- Visit the official Ollama website: https://ollama.ai
+- Download the installer for your OS (Windows, macOS, or Linux)
+- Follow the on-screen instructions to install Ollama
+- Verify installation by running:
+```
+ollama --version
+```
+
+## Step 2: Download the Qwen-0.5B Model
+
+Open a terminal or command prompt
+
+Run the following command to download and set up the Qwen-0.5B model:
+
+```
+ollama pull qwen:0.5b
+```
+
+Check available models to confirm installation:
+
+```
+ollama list
+```
+
+## before run
 - chaange the path in chatbotwebsite -> config.py
 - chaange the path in chatbotwebsite -> Chatbot -> chatbot.py
 - to update model. chaange the path in chatbotwebsite -> Chatbot -> chatbot.py line 35 currently using qwen 0.5b
