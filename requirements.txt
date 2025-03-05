@@ -19,3 +19,4 @@ mysql-connector-python
 Werkzeug
 fitz
 langchain-ollama
+gunicorn
