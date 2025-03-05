@@ -20,3 +20,4 @@ Werkzeug
 fitz
 langchain-ollama
 gunicorn
+flask_sqlalchemy
