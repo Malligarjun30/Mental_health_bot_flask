@@ -13,15 +13,19 @@ from keras.models import load_model
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import pdfplumber
-folder_path=r"D:\project_2025\keerthi\Python-Mental-Health-Chatbot\patient_history"
+folder_path = os.path.join(os.getcwd(), 'patient_history')
 context = ""
-for filename in os.listdir(folder_path):
-    if filename.endswith(".pdf"):
-        # Open the PDF file
-        with pdfplumber.open(folder_path+"\\"+filename) as pdf:
-            for page in pdf.pages:
-                context += page.extract_text() + "\n"
-
+try:
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".pdf"):
+            # Open the PDF file
+            with pdfplumber.open(os.path.join(folder_path, filename)) as pdf:
+                for page in pdf.pages:
+                    context += page.extract_text() + "\n"
+except FileNotFoundError:
+    print("The directory or files do not exist.")
+    context = "No patient history available."
+    
 template ="""
 You are a helpful AI assistant that answers only mental health questions.
 If the question is not related to meantal health, politely refuse to answer.
