@@ -21,3 +21,4 @@ fitz
 langchain-ollama
 gunicorn
 flask_sqlalchemy
+pdfplumber
